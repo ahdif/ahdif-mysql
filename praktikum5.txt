@@ -1,0 +1,214 @@
+Enter password: ***
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 39
+Server version: 5.5.51 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database sewamobil;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use sewamobil;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| jurusan            |
+| kampus             |
+| kantor             |
+| karyawan           |
+| kursus01           |
+| latihan01          |
+| mahasiswa          |
+| mysql              |
+| pb                 |
+| pegawai            |
+| peliharaan         |
+| pelita             |
+| pelitabangsa       |
+| performance_schema |
+| perusahaan         |
+| pet                |
+| praktikum          |
+| praktikum01        |
+| sdm                |
+| sekolah            |
+| sewamobil          |
+| test               |
+| tugas01            |
++--------------------+
+24 rows in set (0.15 sec)
+
+mysql> create table mobil
+    -> (kode varchar (15) primary key,
+    -> jenis varchar(20) not null,
+    -> merk varchar(20) not null,
+    -> tarif varchar(20) not null,
+    -> nopol varchar(20) not null);
+Query OK, 0 rows affected (0.43 sec)
+
+mysql> desc mobil;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| kode  | varchar(15) | NO   | PRI | NULL    |       |
+| jenis | varchar(20) | NO   |     | NULL    |       |
+| merk  | varchar(20) | NO   |     | NULL    |       |
+| tarif | varchar(20) | NO   |     | NULL    |       |
+| nopol | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into mobil
+    -> values
+    -> ("M001", "sedan", "bmw es", "500000", "BG1234AA"),
+    -> ("M002", "sedan", "honda crv", "350000", "BG2345CC"),
+    -> ("M003", "bus", "mercedes", "100000", "BG2345DD"),
+    -> ("M004", "bus", "dyna", "8000000", "BG2345DD"),
+    -> ("M005", "truck", "hyno zx", "150000", "BG2345DD"),
+    -> ("M005", "truck", "dyno x1", "150000", "BG2345DD");
+ERROR 1062 (23000): Duplicate entry 'M005' for key 'PRIMARY'
+mysql> insert into mobil
+    -> values
+    -> ("M001", "sedan", "bmw es", "500000", "BG1234AA"),
+    -> ("M002", "sedan", "honda crv", "350000", "BG2345BB"),
+    -> ("M003", "bus", "mercedes", "1000000", "BG2345CC"),
+    -> ("M004", "bus", "dyna", "800000", "BG8443DD"),
+    -> ("M005", "truck", "hyno zx", "1500000", "BG4638EE"),
+    -> ("M006", "truck", "dyno x1", "1500000", "BG8473FF");
+Query OK, 6 rows affected (0.17 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select*from mobil;
++------+-------+-----------+---------+----------+
+| kode | jenis | merk      | tarif   | nopol    |
++------+-------+-----------+---------+----------+
+| M001 | sedan | bmw es    | 500000  | BG1234AA |
+| M002 | sedan | honda crv | 350000  | BG2345BB |
+| M003 | bus   | mercedes  | 1000000 | BG2345CC |
+| M004 | bus   | dyna      | 800000  | BG8443DD |
+| M005 | truck | hyno zx   | 1500000 | BG4638EE |
+| M006 | truck | dyno x1   | 1500000 | BG8473FF |
++------+-------+-----------+---------+----------+
+6 rows in set (0.00 sec)
+
+mysql> create table pelanggan
+    -> (code varchar(15) primary key,
+    -> nama varchar(20) not null,
+    -> kontak varchar(20) not null,
+    -> alamat varchar(20) not null,
+    -> kota varchar(20) not null,
+    -> kodepos varchar(10) not null,
+    -> telepon varchar(15) not null);
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc pelanggan
+    -> desc pelanggan;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc pelanggan' at line 2
+mysql> desc pelanggan;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| code    | varchar(15) | NO   | PRI | NULL    |       |
+| nama    | varchar(20) | NO   |     | NULL    |       |
+| kontak  | varchar(20) | NO   |     | NULL    |       |
+| alamat  | varchar(20) | NO   |     | NULL    |       |
+| kota    | varchar(20) | NO   |     | NULL    |       |
+| kodepos | varchar(10) | NO   |     | NULL    |       |
+| telepon | varchar(15) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> insert into pelanggan
+    -> values
+    -> ("001", "PT FOX RIVER", "HENDRA", "JL. JNDRAL SUDIRMAN 657", "BENGKULU", "30245", "1234567"),
+    -> ("002", "PT FOXCON", "IVAN", "JL. WAHID HASYIM 743", "JAKARTA", "73429", "089098987876"),
+    -> ("003", "PT FARMACON", "YANI", "JL. AHMAD DAHLAN 45", "LAMPUNG", "28349", "33334445");
+ERROR 1406 (22001): Data too long for column 'alamat' at row 1
+mysql> insert into pelanggan values
+    -> ("001", "pt fox river", "hendra", "jl.jend.sudirman 657", "bengkulu", "30245", "1234567"),
+    -> ("002", "pt foxcon", "ivan", "jl.wahid hasyim 743", "jakarta", "73429", "234567"),
+    -> ("003", "pt farmacon", "yani", "jl.ahmad dahlan 45", "lampung", "28349", "3334445");
+Query OK, 3 rows affected (0.10 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from pelanggan;
++------+--------------+--------+----------------------+----------+---------+---------+
+| code | nama         | kontak | alamat               | kota     | kodepos | telepon |
++------+--------------+--------+----------------------+----------+---------+---------+
+| 001  | pt fox river | hendra | jl.jend.sudirman 657 | bengkulu | 30245   | 1234567 |
+| 002  | pt foxcon    | ivan   | jl.wahid hasyim 743  | jakarta  | 73429   | 234567  |
+| 003  | pt farmacon  | yani   | jl.ahmad dahlan 45   | lampung  | 28349   | 3334445 |
++------+--------------+--------+----------------------+----------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> create table sewa
+    -> add tglsewa varchar (20) not null,
+    -> add kodemobil varchar (20) not nul);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'add tglsewa varchar (20) not null,
+add kodemobil varchar (20) not nul)' at line 2
+mysql> create table sewa
+    -> (nofaktursewa varchar (20) not null,
+    -> kodepelanggan varchar (20) not null,
+    -> tglsewa varchar (20) not null,
+    -> kodemobil varchar (20) not null,
+    -> lamasewa varchar (20) not null,
+    -> uangmuka varchar (20) not null);
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> desc sewa;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| nofaktursewa  | varchar(20) | NO   |     | NULL    |       |
+| kodepelanggan | varchar(20) | NO   |     | NULL    |       |
+| tglsewa       | varchar(20) | NO   |     | NULL    |       |
+| kodemobil     | varchar(20) | NO   |     | NULL    |       |
+| lamasewa      | varchar(20) | NO   |     | NULL    |       |
+| uangmuka      | varchar(20) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> insert into sewa values
+    -> ("F001", "P001", "2008-12-01", "M001", "2", "200000"),
+    -> ("F001", "P001", "2008-12-01", "M003", "2", "200000"),
+    -> ("F002", "P002", "2008-12-01", "M001", "1", "200000");
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select* from sewa;
++--------------+---------------+------------+-----------+----------+----------+
+| nofaktursewa | kodepelanggan | tglsewa    | kodemobil | lamasewa | uangmuka |
++--------------+---------------+------------+-----------+----------+----------+
+| F001         | P001          | 2008-12-01 | M001      | 2        | 200000   |
+| F001         | P001          | 2008-12-01 | M003      | 2        | 200000   |
+| F002         | P002          | 2008-12-01 | M001      | 1        | 200000   |
++--------------+---------------+------------+-----------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select mobil.kode,mobil.jenis,mobil.merk,sewa.nofaktursewa,sewa.tglsewa,sewa.lamasewa
+    -> from mobil
+    -> left join sewa
+    -> on mobil.kode = sewa.kodemobil;
++------+-------+-----------+--------------+------------+----------+
+| kode | jenis | merk      | nofaktursewa | tglsewa    | lamasewa |
++------+-------+-----------+--------------+------------+----------+
+| M001 | sedan | bmw es    | F001         | 2008-12-01 | 2        |
+| M001 | sedan | bmw es    | F002         | 2008-12-01 | 1        |
+| M002 | sedan | honda crv | NULL         | NULL       | NULL     |
+| M003 | bus   | mercedes  | F001         | 2008-12-01 | 2        |
+| M004 | bus   | dyna      | NULL         | NULL       | NULL     |
+| M005 | truck | hyno zx   | NULL         | NULL       | NULL     |
+| M006 | truck | dyno x1   | NULL         | NULL       | NULL     |
++------+-------+-----------+--------------+------------+----------+
+7 rows in set (0.03 sec)
+
+mysql>
