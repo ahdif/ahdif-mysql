@@ -1,0 +1,155 @@
+Enter password: ***
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 30
+Server version: 5.5.51 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use sekolah;
+Database changed
+mysql> create table mahasiswa
+    -> (nim char(8) primary key,
+    -> nama varchar (25) not null,
+    -> alamatjalan varchar (200) null,
+    -> kota varchar (25) not null,
+    -> kodepos char(8) null,
+    -> nohp char(15) null,
+    -> jeniskelamin varchar(15) not null,
+    -> tanggallahir date not null,
+    -> kodedosen char(8) null);
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> insert into mahasiswa
+    -> (nim, nama, kota, jeniskelamin, tanggallahir)
+    -> VALUES
+    -> ("11223344", "ari santoso", "bekasi", "laki-laki", "1998-10-12"),
+    -> ("11223345", "ario talib", "cikarang", "laki-laki", "1999-11-16"),
+    -> ("11223346", "ario talib", "cikarang", "laki-laki", "1999-11-16"),
+    ->
+    ->
+    -> ("11223345", "ario talib", "cikarang", "laki-laki", "1999-11-16"),;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 9
+mysql> insert into mahasiswa
+    -> (nim, nama, kota, jeniskelamin, tanggallahir)
+    -> VALUES
+    -> ("11223344", "ari santoso", "bekasi", "laki-laki", "1998-10-12"),
+    -> ("11223345", "ario talib", "cikarang", "laki-laki", "1999-11-16"),
+    -> ("11223346", "dina marlina", "karawang", "perempuan", "1997-12-01"),
+    -> ("11223347", "lisa ayu", "bekasi", "perempuan", "1996-01-02"),
+    -> ("11223348", "tiara wardinah", "bekasi", "perempuan", "1980-02-05"),
+    -> ("11223349", "anton sinaga", "cikarang", "laki-laki", "1988-03-10");
+Query OK, 6 rows affected (0.13 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from mahasiswa;
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| nim      | nama           | alamatjalan | kota     | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223344 | ari santoso    | NULL        | bekasi   | NULL    | NULL | laki-laki    | 1998-10-12   | NULL      |
+| 11223345 | ario talib     | NULL        | cikarang | NULL    | NULL | laki-laki    | 1999-11-16   | NULL      |
+| 11223346 | dina marlina   | NULL        | karawang | NULL    | NULL | perempuan    | 1997-12-01   | NULL      |
+| 11223347 | lisa ayu       | NULL        | bekasi   | NULL    | NULL | perempuan    | 1996-01-02   | NULL      |
+| 11223348 | tiara wardinah | NULL        | bekasi   | NULL    | NULL | perempuan    | 1980-02-05   | NULL      |
+| 11223349 | anton sinaga   | NULL        | cikarang | NULL    | NULL | laki-laki    | 1988-03-10   | NULL      |
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+6 rows in set (0.05 sec)
+
+mysql> update mahasiswa
+    -> set tanggallahir="1979-08-31"
+    -> where nim="11223344"
+    -> ;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update mahasiswa
+    -> set tanggallahir="1979-08-31"
+    -> where nim="11223344";
+Query OK, 0 rows affected (0.10 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from mahasiswa
+    -> where nama =""ari santoso
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ari santoso' at line 2
+mysql> select * from mahasiswa
+    -> where nama="ari santoso";
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| nim      | nama        | alamatjalan | kota   | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| 11223344 | ari santoso | NULL        | bekasi | NULL    | NULL | laki-laki    | 1979-08-31   | NULL      |
++----------+-------------+-------------+--------+---------+------+--------------+--------------+-----------+
+1 row in set (0.01 sec)
+
+mysql> delete from mahasiswa where nama="dina marlina";
+Query OK, 1 row affected (0.17 sec)
+
+mysql> select * from mahasiswa
+    -> where tanggallahir >="1996-01-02"
+    -> order by nama;
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| nim      | nama       | alamatjalan | kota     | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223345 | ario talib | NULL        | cikarang | NULL    | NULL | laki-laki    | 1999-11-16   | NULL      |
+| 11223347 | lisa ayu   | NULL        | bekasi   | NULL    | NULL | perempuan    | 1996-01-02   | NULL      |
++----------+------------+-------------+----------+---------+------+--------------+--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from mahasiswa
+    -> where kota="bekasi"
+    -> and jeniskelamin="perempuan";
++----------+----------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| nim      | nama           | alamatjalan | kota   | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+----------------+-------------+--------+---------+------+--------------+--------------+-----------+
+| 11223347 | lisa ayu       | NULL        | bekasi | NULL    | NULL | perempuan    | 1996-01-02   | NULL      |
+| 11223348 | tiara wardinah | NULL        | bekasi | NULL    | NULL | perempuan    | 1980-02-05   | NULL      |
++----------+----------------+-------------+--------+---------+------+--------------+--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from mahasiswa
+    -> where kota="bekasi"
+    -> and jeniskelamin="laki-laki"
+    -> or tanggallahir between "1998-03-10" and "1999-11-16" and jeniskelamin <> "perempuan";
++----------+-------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| nim      | nama        | alamatjalan | kota     | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+-------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223344 | ari santoso | NULL        | bekasi   | NULL    | NULL | laki-laki    | 1979-08-31   | NULL      |
+| 11223345 | ario talib  | NULL        | cikarang | NULL    | NULL | laki-laki    | 1999-11-16   | NULL      |
++----------+-------------+-------------+----------+---------+------+--------------+--------------+-----------+
+2 rows in set (0.14 sec)
+
+mysql> select nama, alamatjalan from mahasiswa;
++----------------+-------------+
+| nama           | alamatjalan |
++----------------+-------------+
+| ari santoso    | NULL        |
+| ario talib     | NULL        |
+| lisa ayu       | NULL        |
+| tiara wardinah | NULL        |
+| anton sinaga   | NULL        |
++----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> slect * from mahasiswa
+    -> order by nama ASC;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from mahasiswa
+order by nama ASC' at line 1
+mysql> select * from mahasiswa
+    -> order by nama ASC;
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| nim      | nama           | alamatjalan | kota     | kodepos | nohp | jeniskelamin | tanggallahir | kodedosen |
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+| 11223349 | anton sinaga   | NULL        | cikarang | NULL    | NULL | laki-laki    | 1988-03-10   | NULL      |
+| 11223344 | ari santoso    | NULL        | bekasi   | NULL    | NULL | laki-laki    | 1979-08-31   | NULL      |
+| 11223345 | ario talib     | NULL        | cikarang | NULL    | NULL | laki-laki    | 1999-11-16   | NULL      |
+| 11223347 | lisa ayu       | NULL        | bekasi   | NULL    | NULL | perempuan    | 1996-01-02   | NULL      |
+| 11223348 | tiara wardinah | NULL        | bekasi   | NULL    | NULL | perempuan    | 1980-02-05   | NULL      |
++----------+----------------+-------------+----------+---------+------+--------------+--------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql>
